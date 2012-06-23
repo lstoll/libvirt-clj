@@ -6,3 +6,6 @@
 
 (deftest conn-returns-conn
   (is org.libvirt.Connect (type (conn turi))))
+
+(deftest domain-list
+  (is 1 (count (list-domains (conn turi)))))
