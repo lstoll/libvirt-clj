@@ -2,5 +2,7 @@
   (:use [libvirt])
   (:use [clojure.test]))
 
-(deftest replace-me ;; FIXME: write
-  (is false "No tests have been written."))
+(def turi "test:///default")
+
+(deftest conn-returns-conn
+  (is org.libvirt.Connect (type (conn turi))))
