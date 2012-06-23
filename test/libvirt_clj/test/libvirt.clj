@@ -1,5 +1,5 @@
-(ns libvirt-clj.test.core
-  (:use [libvirt-clj.core])
+(ns libvirt-clj.test.libvirt
+  (:use [libvirt])
   (:use [clojure.test]))
 
 (deftest replace-me ;; FIXME: write

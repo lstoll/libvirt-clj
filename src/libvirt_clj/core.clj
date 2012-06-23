@@ -1,1 +1,0 @@
-(ns libvirt-clj.core)
