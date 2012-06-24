@@ -1,2 +1,4 @@
 language: clojure
 script: ./script/travis_build.sh
+jdk:
+  - oraclejdk7
