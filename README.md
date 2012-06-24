@@ -1,4 +1,4 @@
-# libvirt-clj
+# libvirt-clj [![Build Status](https://secure.travis-ci.org/lstoll/libvirt-clj.png?branch=master)](http://travis-ci.org/lstoll/libvirt-clj)
 
 Clojure bindings for the Java bindings for Libvirt. This is a thin convenience wrapper.
 
