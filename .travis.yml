@@ -1,4 +1,6 @@
 language: clojure
-script: ./script/travis_build.sh
 jdk:
   - oraclejdk7
+before_install:
+ - sudo apt-get update
+ - sudo apt-get install libvirt-bin
