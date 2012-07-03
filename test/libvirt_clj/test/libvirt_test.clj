@@ -25,6 +25,9 @@
 (deftest conn-returns-conn
   (is org.libvirt.Connect (type (conn turi))))
 
+(deftest bad-conn-throws
+  (is (thrown? org.libvirt.LibvirtException (conn "test:///defaultBROKEN"))))
+
 (deftest domain-list-test
   (is 1 (count (domain-list (tc)))))
 
