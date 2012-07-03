@@ -28,10 +28,11 @@
         (if ~wrap-result (JavaWrapper. res#) res#)
         )))
 
-(defn conn
+
+(defn connect
   "Gets a connection to the specified URI. By default this is read-only, override by specifing ::rw true"
   [uri & {:keys [ro] :or {ro false}}]
-  (Connect. uri ro))
+  (JavaWrapper. (Connect. uri ro)))
 
 ;;
 ;; Domains
@@ -54,3 +55,19 @@
   [conn domain-xml]
   ;; Just use default flags
   (JavaWrapper. (.domainCreateXML conn domain-xml 0)))
+
+
+;;
+;;  Wrapper Functions
+;;
+
+;; Shared
+(defwrapperfn create)
+
+;; Connect
+(defwrapperfn max-vcpus :callfn getMaxVcpus)
+(defwrapperfn network-create :callfn networkCreateXML :wrap-result true)
+(defwrapperfn network-define :callfn networkDefineXML :wrap-result true)
+(defwrapperfn node-info :callfn nodeInfo :wrap-result true)
+(defwrapperfn define-domain :callfn domainDefineXML :wrap-result true)
+(defwrapperfn create-linux-domain :callfn domainCreateLinux :wrap-result true)
