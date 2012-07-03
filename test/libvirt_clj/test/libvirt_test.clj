@@ -1,4 +1,4 @@
-(ns libvirt-clj.test.libvirt
+(ns libvirt-clj.test.libvirt-test
   (:use [libvirt])
   (:use [clojure.test]))
 
