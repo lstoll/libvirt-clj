@@ -59,3 +59,23 @@
    instance
    method-str
    (to-array args)))
+
+(defn str-field [instance field-str]
+  (clojure.lang.Reflector/getInstanceField instance field-str))
+
+(defn call-getter
+  "Calls a getter, trying for get first, then is, then the method directly. Returns nil if field doesnt exist"
+  [obj key]
+  (try
+    (str-invoke obj (k-to-getter (str "get-" (name key))))
+    (catch IllegalArgumentException e
+      (try
+        ;; is- is truthy. less than 1 is false, anything else is true
+        (if (> 1 (str-invoke obj (k-to-getter (str "is-" (name key))))) false true)
+        (catch IllegalArgumentException e
+          (try
+            (str-invoke obj (k-to-camelstr (name key)))
+            (catch IllegalArgumentException e
+              (try
+                (str-field obj (k-to-camelstr (name key)))
+                (catch IllegalArgumentException e nil)))))))))

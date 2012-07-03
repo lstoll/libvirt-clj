@@ -7,9 +7,7 @@
   (valAt [this key]
     (if (= key :o)
       wrapped
-      (try
-        (str-invoke wrapped (k-to-getter key))
-        (catch RuntimeException e nil)))) ; no method, nil
+      (call-getter wrapped key))) ; no method, nil
   clojure.lang.Associative
   (assoc [this key val]
     (str-invoke wrapped (k-to-setter key) val)
@@ -19,6 +17,16 @@
   (equals [this other] (.equals wrapped other))
   (hashCode [this] (.hashCode wrapped)))
 
+(defmacro defwrapperfn
+  "Creates an accessor function for a Java object"
+  [name & {:keys [callfn wrap-result] :or {callfn name wrap-result false}}]
+   `(defn ~name
+      [target# & args#]
+      (let [res# (if (instance? JavaWrapper target#)
+                   (apply str-invoke (:o target#) ~(str callfn) args#)
+                   (apply str-invoke target# ~(str callfn) args#))]
+        (if ~wrap-result (JavaWrapper. res#) res#)
+        )))
 
 (defn conn
   "Gets a connection to the specified URI. By default this is read-only, override by specifing ::rw true"
