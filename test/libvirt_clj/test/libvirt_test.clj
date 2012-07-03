@@ -32,9 +32,9 @@
   (is 1 (count (domain-list (tc)))))
 
 (deftest domains-test
-  (is org.libvirt.Domain (first (domains (tc)))))
+  (is "test" (:name (first (domains (tc))))))
 
 (deftest create-domain-test
   (let [new (create-domain (tc) new-domain-xml)]
-    (is org.libvirt.Domain (type new))
-    (is "testnew" (.getName new))))
+    (is org.libvirt.Domain (type (:o new)))
+    (is "testnew" (:name new))))
