@@ -9,7 +9,7 @@
     (is (= (max-vcpus c "xen") 32) "getMaxVcpus(xen)")
     (is (not (nil? (:host-name c))) "getHostName()")
     (is (not (nil? (:capabilities c))) "getCapabilities()")
-    ;; (is (> 6000 (:connection-version c)) "getConnectionVersion()")
+    (is (> (org.libvirt.Connect/connectionVersion (:o c)) 6000) "getConnectionVersion()")
     (is (not (:encrypted c)) "isEncrypted()")
     ))
 
