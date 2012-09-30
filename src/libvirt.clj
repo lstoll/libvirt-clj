@@ -35,6 +35,7 @@
         (case ~wrap-result
           :wrapper (JavaWrapper. res#)
           :seq (seq res#)
+          :vec (vec res#)
           res#)
         )))
 
@@ -63,7 +64,9 @@
   "Sets a binding for a libvirt connection to act on"
   [hostspec & body]
   `(binding [*libvirt-connection* (connect-from-hostspec ~hostspec)]
-     ~@body))
+     (let [ret# (do ~@body)]
+       (.close (:o *libvirt-connection*))
+       ret#)))
 ;;
 ;; Domains
 ;;
@@ -106,4 +109,8 @@
 (defwrapperfn node-info :callfn nodeInfo :wrap-result :wrapper)
 (defwrapperfn define-domain :callfn domainDefineXML :wrap-result :wrapper :pass-connection true)
 (defwrapperfn create-linux-domain :callfn domainCreateLinux :wrap-result :wrapper :pass-connection true)
-(defwrapperfn list-storage-pools :callfn listStoragePools, :wrap-result :seq)
+(defwrapperfn list-storage-pools :callfn listStoragePools, :wrap-result :vec)
+(defwrapperfn storage-pool :callfn storagePoolLookupByName, :wrap-result :wrapper :pass-connection true)
+
+;; StoragePool
+(defwrapperfn list-volumes :callfn listVolumes, :wrap-result :vec)
